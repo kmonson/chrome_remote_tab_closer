@@ -1,10 +1,8 @@
 import click
 import yaml
-import time
 import pychrome
 import logging
 from watchdog.observers import Observer
-from pprint import pprint
 from pathlib import Path
 from watchdog.events import PatternMatchingEventHandler
 from threading import Event
