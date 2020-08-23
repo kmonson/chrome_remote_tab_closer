@@ -2,8 +2,8 @@ Chrome Remote Tab Closer
 ------------------------
 
 With remote schooling being inevitable in our school district in the fall of 
-2020 I needed a way to *quickly and immediately* block and unblock websites in Chrome
-remotely. Sites such as Youtube are necessary for schoolwork some of the time
+2020 I needed a way to *quickly, immediately, and remotely* block and unblock 
+websites in Chrome. Sites such as Youtube are necessary for schoolwork some of the time
 but are also a huge distraction.
 
 This is accomplished by opening Chrome with remote debugging enabled and
