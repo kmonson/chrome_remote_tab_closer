@@ -3,3 +3,5 @@ pyyaml
 click
 watchdog
 voluptuous
+tornado
+tornado-http-auth

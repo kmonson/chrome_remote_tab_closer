@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+    <label for="host">Target Host:</label><br>
+    <input type="text" id="host" name="host" value="{{host}}"><br>
+    <label for="block_list">Bans:</label><br>
+    <select id="block_list" size="8">
+        {% for ban in bans %}
+            <option id="{{ban}}">{{ban}}</option>
+        {% end %}
+    </select><br>
+    <label for="insert">Insert:</label>
+    <input type="text" id="insert" name="insert"><br>
+</form>
+<br>
+
+
+<button type="button" onclick="add_option()">Insert Ban</button>
+<button type="button" onclick="remove_option()">Remove Ban</button>
+<button type="button" id="submit_button" onclick="submit()">Submit Changes</button>
+
+<script>
+function submit() {
+  var bans = [];
+  var result = {host: document.getElementById("host").value, bans: bans};
+  var block_list = document.getElementById("block_list");
+  var submit_button = document.getElementById("submit_button");
+  var i;
+  for(i = 0; i < block_list.length; i++)
+  {
+    bans.push(block_list[i].text);
+  }
+
+  submit_button.disabled = true;
+
+  var promise = fetch(window.location.href, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  body: JSON.stringify(result)
+});
+  promise.catch(alert);
+  promise.finally(() => submit_button.disabled = false);
+}
+
+function add_option() {
+  var block_list = document.getElementById("block_list");
+  var new_ban = document.getElementById("insert").value;
+  if(new_ban == "")
+  {
+    return;
+  }
+  var existing_option = block_list.namedItem(new_ban);
+  if(existing_option == null)
+  {
+    var option = document.createElement("option");
+    option.text = new_ban;
+    option.id = new_ban;
+    block_list.add(option);
+  }
+}
+
+function remove_option() {
+  var x = document.getElementById("block_list");
+  x.remove(x.selectedIndex);
+}
+</script>
+
+</body>
+</html>

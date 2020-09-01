@@ -6,17 +6,11 @@ from watchdog.observers import Observer
 from pathlib import Path
 from watchdog.events import PatternMatchingEventHandler
 from threading import Event
-from voluptuous import Schema, Required, REMOVE_EXTRA, Url, Invalid
+from utils import config_schema
+from voluptuous import Invalid
 
 configs = {}
 config_event = Event()
-config_schema = Schema(
-    {
-        Required("host"): Url(),
-        Required("bans"): [str]
-    },
-    extra=REMOVE_EXTRA
-)
 
 
 def reload_configs(path: Path):
