@@ -18,6 +18,7 @@ import time
 import tornado.ioloop
 import tornado.web
 import tornado.httpserver
+from tornado.escape import json_decode
 from tornado_http_auth import BasicAuthMixin, auth_required
 
 import click
@@ -62,7 +63,16 @@ class ConfigHandler(tornado.web.RequestHandler):
         self.render("templates/config.html", bans=bans, host=host)
 
     def post(self, name):
-        _log.warning(f"Config {name} posted")
+        config = json_decode(self.request.body)
+        _log.warning(f"Config {name} posted: {config}")
+        target = configuration_dir / f"{name}.yaml"
+        try:
+            config = config_schema(config)
+        except (yaml.YAMLError, Invalid) as e:
+            logging.error(f"Failed to load config {name}: {e}")
+        else:
+            with open(target, "w") as f:
+                yaml.safe_dump(config, f)
 
 
 def make_app():
